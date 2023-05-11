@@ -1,0 +1,26 @@
+@media (max-width: 640px)
+{
+  .alter {
+    text-align: justify;
+    display: inline-block;
+    height: auto;
+    margin-bottom: 25px;
+  }
+  .alter-reverse {
+    display: flex;
+    text-align: justify;
+    flex-direction: column-reverse;
+    height: auto;
+    margin-bottom: 25px;
+  }
+  .alter-reverse h2 {
+    text-align: center;
+  }
+  .alter-acess{
+   display: block;
+   height: auto;
+   margin-bottom: 25px;
+  }
+
+
+}

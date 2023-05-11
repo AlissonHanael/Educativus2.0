@@ -1,0 +1,10 @@
+.tabela{
+  width: auto;
+  margin: 1.25rem;
+}
+
+@media (max-width: 640px){
+  .tabela {
+    display: none;
+  }
+}
