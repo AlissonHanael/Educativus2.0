@@ -23,7 +23,9 @@ export default function LoginForm() {
       })
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token)
-        navigate('/cadastroaula')
+        setTimeout(function () {
+          navigate('/cadastroaula')
+        }, 3000)
       }
       console.log(response)
     } catch (err) {
@@ -47,7 +49,7 @@ export default function LoginForm() {
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="email-address" className="sr-only">
-                  E-mail
+                  Nome de Usuário
                 </label>
                 <input
                   id="email-address"
@@ -56,7 +58,7 @@ export default function LoginForm() {
                   autoComplete="email"
                   required
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
-                  placeholder="E-mail"
+                  placeholder="Nome de usuário"
                   onChange={e => setEmail(e.target.value)}
                 />
               </div>

@@ -11,7 +11,7 @@ const NotFound = () => {
         <p className="text-2xl">
           Volte para o{' '}
           <span className="text-red-400">
-            <a href="/">Início</a>
+            <a href="/Educativus">Início</a>
           </span>
         </p>
       </div>

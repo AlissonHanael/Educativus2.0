@@ -78,6 +78,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+const logout = function (e) {
+  localStorage.clear()
+}
+
 const Navbar = () => {
   return (
     <Popover className="relative bg-white border-b-2 border-gray-100">
@@ -242,6 +246,26 @@ const Navbar = () => {
                 </a>
               </>
             </Popover>
+            <Popover className="relative">
+              <>
+                {localStorage.getItem('token') ? (
+                  <Link
+                    className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    to="/"
+                    onClick={logout}
+                  >
+                    Logout
+                  </Link>
+                ) : (
+                  <Link
+                    className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    to="/login"
+                  >
+                    Login
+                  </Link>
+                )}
+              </>
+            </Popover>
           </Popover.Group>
         </div>
       </div>
@@ -304,6 +328,24 @@ const Navbar = () => {
                 >
                   GLPI
                 </Link>
+              </div>
+              <div className="mt-6">
+                {localStorage.getItem('token') ? (
+                  <Link
+                    className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    to="/"
+                    onClick={logout}
+                  >
+                    Logout
+                  </Link>
+                ) : (
+                  <Link
+                    className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    to="/login"
+                  >
+                    Login
+                  </Link>
+                )}
               </div>
             </div>
           </div>

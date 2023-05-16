@@ -8,7 +8,7 @@ const Card = props => {
 
   async function getCategoria() {
     try {
-      const res = await api.get(`/api/categoria/${props.category}`)
+      const res = await api.get(`/api/categoria/${props.category}/`)
       setCategoria(res.data)
     } catch (err) {
       alert(err.message)
