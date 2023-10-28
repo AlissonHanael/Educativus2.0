@@ -9,6 +9,12 @@ import ListaAulas from './routes/ListaAulas'
 import Aula from './routes/Aula'
 import CadastroAula from './routes/CadastroAula'
 import CadastroCategoria from './routes/CadastroCategoria'
+import CadastroManual from './routes/CadastroManual'
+import ListaManuais from './routes/ListaManuais'
+import { CardSectionManual } from './components/CardSectionManual'
+import AulasCadastradas from './routes/AulasCadastradas'
+import CategoriasCadastradas from './routes/CategoriasCadastradas'
+import ManuaisCadastrados from './routes/ManuaisCadastrados'
 
 function App() {
   const token = localStorage.getItem('token')
@@ -23,12 +29,21 @@ function App() {
         <Routes>
           <Route path="/*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
+          <Route path="/cardmanual" element={<CardSectionManual />} />
           <Route path="/aula/*" element={<Aula />} />
           <Route path="/treinamentos" element={<ListaAulas />} />
+          <Route path="/manuais" element={<ListaManuais />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/cadastrousuario" element={<CadastroUsuario />} />
-          <Route path="/cadastroaula" element={<CadastroAula />} />
+          <Route path="/cadastroaula/*" element={<CadastroAula />} />
+          <Route path="/cadastromanual/*" element={<CadastroManual />} />
           <Route path="/cadastrocategoria" element={<CadastroCategoria />} />
+          <Route path="/aulascadastradas" element={<AulasCadastradas />} />
+          <Route path="/manuaiscadastrados" element={<ManuaisCadastrados />} />
+          <Route
+            path="/categoriascadastradas"
+            element={<CategoriasCadastradas />}
+          />
         </Routes>
       ) : (
         <Routes>
@@ -36,6 +51,7 @@ function App() {
           <Route path="/*" element={<NotFound />} />
           <Route path="/aula/*" element={<Aula />} />
           <Route path="/treinamentos" element={<ListaAulas />} />
+          <Route path="/manuais" element={<ListaManuais />} />
           <Route path="/login" element={<LoginForm />} />
         </Routes>
       )}

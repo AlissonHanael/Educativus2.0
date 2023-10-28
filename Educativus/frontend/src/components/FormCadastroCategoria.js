@@ -54,7 +54,7 @@ const FormCadastroCategoria = () => {
         </label>
         <input
           required
-          className="w-full p-2 border rounded border-slate-400"
+          className="w-full p-2 border rounded border-slate-400 mb-2"
           id="categoria"
           type="text"
           placeholder="Digite o nome da categoria..."
@@ -62,7 +62,7 @@ const FormCadastroCategoria = () => {
         ></input>
         <input
           required
-          className="w-full p-2 border rounded border-slate-400"
+          className="w-full p-2 border rounded border-slate-400 mb-2"
           id="categoria"
           type="file"
           accept="image/*"

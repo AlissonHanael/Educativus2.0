@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import api from '../services/api'
 import headers from '../services/headers'
-import './ListaAulas.css'
+import './ListaCategorias.css'
 import { PiPencilSimpleLineDuotone, PiTrashSimpleDuotone } from 'react-icons/pi'
 
 const ListaAulas = () => {
-  const [aulas, setAulas] = useState([])
-  const [searchAulas, setSearchAulas] = useState('')
-  const searchLowCase = searchAulas.toLowerCase()
-  const listaTabela = aulas.filter(aulas =>
-    aulas.titulo_aula.toLowerCase().includes(searchLowCase)
+  const [manuais, setManuais] = useState([])
+  const [searchManuais, setSearchManuais] = useState('')
+  const searchLowCase = searchManuais.toLowerCase()
+  const listaTabela = manuais.filter(manuais =>
+    manuais.titulo_pdf.toLowerCase().includes(searchLowCase)
   )
   const returnHeaders = headers()
 
   function desejaApagar(id) {
-    const userConfirmed = window.confirm('Deseja apagar a aula: ' + id)
+    const userConfirmed = window.confirm('Deseja apagar o manual: ' + id)
     if (userConfirmed) {
       async function apagaAula(id) {
         try {
-          const response = await api.delete(`api/aulas/${id}/`, {
+          const response = await api.delete(`api/manuais/${id}/`, {
             headers: returnHeaders
           })
           if (response.status === 200) {
-            alert('Aula Apagada!')
+            alert('Manual Apagado!')
             setTimeout(function () {
               window.location.reload(true)
             }, 3000)
@@ -37,30 +37,33 @@ const ListaAulas = () => {
     }
   }
 
-  async function getAulas() {
+  async function getManuais() {
     try {
-      const res = await api.get('/api/aulas')
-      setAulas(res.data)
+      const res = await api.get('/api/manuais')
+      setManuais(res.data)
     } catch (err) {
       alert(err.message)
     }
   }
   useEffect(() => {
-    getAulas()
+    getManuais()
   }, [])
 
-  const listaAulas = listaTabela.map(aula => (
-    <tr key={aula.id} className="border-b dark:border-neutral-500">
-      <td className="px-6 py-4 font-medium">{aula.id}</td>
-      <td className="px-6 py-4">{aula.titulo_aula}</td>
-      <td className="px-6 py-4">{aula.descricao_aula}</td>
-      <td className="px-6 py-4">{aula.url_aula}</td>
+  const listaManuais = listaTabela.map(manuais => (
+    <tr key={manuais.id} className="border-b dark:border-neutral-500">
+      <td className="px-6 py-4 font-medium">{manuais.id}</td>
+      <td className="px-6 py-4">{manuais.titulo_pdf}</td>
+      <td className="px-6 py-4">{manuais.descricao_pdf}</td>
+      <td className="px-6 py-4">{manuais.pdf_file}</td>
       <td className="px-6 py-4">
         <div className="flex justify-between">
-          <a className="cursor-pointer" href={`cadastroaula/${aula.id}`}>
+          <a className="cursor-pointer" href={`cadastromanual/${manuais.id}`}>
             <PiPencilSimpleLineDuotone />
           </a>
-          <a className="cursor-pointer" onClick={() => desejaApagar(aula.id)}>
+          <a
+            className="cursor-pointer"
+            onClick={() => desejaApagar(manuais.id)}
+          >
             <PiTrashSimpleDuotone />
           </a>
         </div>
@@ -75,8 +78,8 @@ const ListaAulas = () => {
         <input
           className="search-bar_field"
           type="search"
-          value={searchAulas}
-          onChange={e => setSearchAulas(e.target.value)}
+          value={searchManuais}
+          onChange={e => setSearchManuais(e.target.value)}
         />
       </div>
       <table className="tabela border-2">
@@ -87,13 +90,13 @@ const ListaAulas = () => {
             </th>
             <th scope="col">Título</th>
             <th scope="col">Descrição</th>
-            <th scope="col">YouTube ID</th>
+            <th scope="col">Arquivo</th>
             <th scope="col" className="px-6">
               Opções
             </th>
           </tr>
         </thead>
-        <tbody>{listaAulas}</tbody>
+        <tbody>{listaManuais}</tbody>
       </table>
     </div>
   )

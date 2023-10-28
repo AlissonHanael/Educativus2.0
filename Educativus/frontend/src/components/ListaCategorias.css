@@ -1,5 +1,9 @@
 .tabela{
   margin: 1.25rem;
+  width: 97%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 @media (max-width: 640px){

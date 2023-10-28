@@ -1,19 +1,18 @@
 import React from 'react'
+import ListaAulas from '../components/ListaAulas'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import MenuLateral from '../components/MenuLateral'
-import FormCadastroCategoria from '../components/FormCadastroCategoria'
 
-const CadastroCategoria = () => {
+const AulasCadastradas = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-[1_2]">
+      <div className="flex">
         <MenuLateral />
-
         <div>
-          <p className="page-identifier">Nova Categoria</p>
-          <FormCadastroCategoria />
+          <p className="page-identifier">Aulas Cadastradas</p>
+          <ListaAulas />
         </div>
       </div>
       <Footer />
@@ -21,4 +20,4 @@ const CadastroCategoria = () => {
   )
 }
 
-export default CadastroCategoria
+export default AulasCadastradas

@@ -3,11 +3,11 @@ import api from '../services/api'
 import headers from '../services/headers'
 import './FormCadastroAula.css'
 
-const FormCadastroAula = () => {
+const FormCadastroManual = () => {
   const errorMessage = document.getElementById('error-message')
   const sucessMessage = document.getElementById('sucess-message')
-
-  const [url, setUrl] = useState('')
+  const token = localStorage.getItem('token')
+  const [arquivo, setArquivo] = useState('')
   const [descricao, setDescricao] = useState('')
   const [titulo, setTitulo] = useState('')
   const [categoria_id, setCategoria_id] = useState('')
@@ -21,10 +21,15 @@ const FormCadastroAula = () => {
 
   const [fetchedData, setFetchedData] = useState({})
 
+  const handleFileChange = event => {
+    console.log(event.target.files[0])
+    setArquivo(event.target.files[0])
+  }
+
   useEffect(() => {
     async function fetchedData() {
       if (parseInt(idEdicao) > 0) {
-        const res = await api.get(`/api/aulas/${idEdicao}/`)
+        const res = await api.get(`/api/manuais/${idEdicao}/`)
         console.warn(res.data)
         setFetchedData(res.data)
       }
@@ -42,12 +47,11 @@ const FormCadastroAula = () => {
 
   useEffect(() => {
     if (idEdicao && fetchedData) {
-      setTitulo(fetchedData.titulo_aula)
-      setCategoria_id(fetchedData.categoria_aula)
-      setDescricao(fetchedData.descricao_aula)
-      setUrl(fetchedData.url_aula)
+      setTitulo(fetchedData.titulo_pdf)
+      setCategoria_id(fetchedData.categoria_pdf)
+      setDescricao(fetchedData.descricao_pdf)
     }
-  }, [idEdicao, fetchedData.titulo_aula])
+  }, [idEdicao, fetchedData])
 
   async function handleChange(event) {
     setSelectedOption(event.target.value)
@@ -61,21 +65,20 @@ const FormCadastroAula = () => {
   async function handleSubmit(e) {
     e.preventDefault()
     let fData = new FormData()
-    fData.append('titulo_aula', titulo)
+    fData.append('titulo_pdf', titulo)
     if (!idEdicao) {
-      const parteUrl = url.split('=')
-      const idurl = parteUrl[1]
-      fData.append('url_aula', idurl)
-    } else {
-      fData.append('url_aula', url)
+      fData.append('pdf_file', arquivo)
     }
-    fData.append('descricao_aula', descricao)
-    fData.append('categoria_aula', categoria_id)
+    fData.append('descricao_pdf', descricao)
+    fData.append('categoria_pdf', categoria_id)
 
     if (!idEdicao) {
       try {
-        const response = await api.post('api/aulas', fData, {
-          headers: returnHeaders
+        const response = await api.post('api/manuais/', fData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: 'Token ' + token
+          }
         })
         console.log(response)
         if (response.status === 201) {
@@ -90,12 +93,12 @@ const FormCadastroAula = () => {
         errorMessage.classList.remove('hidden')
         errorMessage.innerHTML = err.message
         setTimeout(function () {
-          window.location.reload(true)
+          // window.location.reload(true)
         }, 3000)
       }
     } else {
       try {
-        const response = await api.put(`api/aulas/${idEdicao}/`, fData, {
+        const response = await api.put(`api/manuais/${idEdicao}/`, fData, {
           headers: returnHeaders
         })
         console.log(response)
@@ -111,7 +114,7 @@ const FormCadastroAula = () => {
         errorMessage.classList.remove('hidden')
         errorMessage.innerHTML = err.message
         setTimeout(function () {
-          console.log('teste')
+          window.location.reload(true)
         }, 3000)
       }
     }
@@ -124,7 +127,7 @@ const FormCadastroAula = () => {
         onSubmit={handleSubmit}
       >
         <label htmlFor="titulo" className="">
-          Título da Aula
+          Título do Manual
         </label>
         <input
           required
@@ -136,20 +139,19 @@ const FormCadastroAula = () => {
           value={titulo}
         ></input>
         <label htmlFor="categoria" className="">
-          URL da Aula
+          Arquivo em PDF
         </label>
         <input
-          required
-          className="w-full p-2 border rounded border-slate-400"
-          id="url"
-          type="text"
-          placeholder="Cole a URL do vídeo"
-          onChange={e => setUrl(e.target.value)}
-          value={url}
+          required={!idEdicao}
+          className="w-full p-2 border rounded border-slate-400 mb-2"
+          id="categoria"
+          type="file"
+          accept="application/pdf"
+          onChange={handleFileChange}
           disabled={idEdicao}
         ></input>
         <label htmlFor="categoria" className="">
-          Descrição da Aula
+          Descrição do Manual
         </label>
         <textarea
           required
@@ -169,7 +171,7 @@ const FormCadastroAula = () => {
             value={
               categoria_id !== ''
                 ? categoria_id
-                : fetchedData.categoria_aula || ''
+                : fetchedData.categoria_pdf || ''
             }
             onChange={handleChange}
           >
@@ -213,4 +215,4 @@ const FormCadastroAula = () => {
   )
 }
 
-export default FormCadastroAula
+export default FormCadastroManual

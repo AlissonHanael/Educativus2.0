@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import api from '../services/api'
 import headers from '../services/headers'
-import './ListaAulas.css'
-import { PiPencilSimpleLineDuotone, PiTrashSimpleDuotone } from 'react-icons/pi'
+import './ListaCategorias.css'
+import { PiTrashSimpleDuotone } from 'react-icons/pi'
 
-const ListaAulas = () => {
-  const [aulas, setAulas] = useState([])
-  const [searchAulas, setSearchAulas] = useState('')
-  const searchLowCase = searchAulas.toLowerCase()
-  const listaTabela = aulas.filter(aulas =>
-    aulas.titulo_aula.toLowerCase().includes(searchLowCase)
+const ListaCategoriasCadastradas = () => {
+  const [categorias, setCategorias] = useState([])
+  const [searchCategorias, setSearchCategorias] = useState('')
+  const searchLowCase = searchCategorias.toLowerCase()
+  const listaTabela = categorias.filter(categorias =>
+    categorias.nome_categoria.toLowerCase().includes(searchLowCase)
   )
   const returnHeaders = headers()
 
   function desejaApagar(id) {
-    const userConfirmed = window.confirm('Deseja apagar a aula: ' + id)
+    const userConfirmed = window.confirm('Deseja apagar a categoria: ' + id)
     if (userConfirmed) {
       async function apagaAula(id) {
         try {
-          const response = await api.delete(`api/aulas/${id}/`, {
+          const response = await api.delete(`api/categoria/${id}/`, {
             headers: returnHeaders
           })
           if (response.status === 200) {
-            alert('Aula Apagada!')
+            alert('Categoria Apagada!')
             setTimeout(function () {
               window.location.reload(true)
             }, 3000)
           }
         } catch (err) {
+          alert(err.message)
           setTimeout(function () {
             window.location.reload(true)
           }, 3000)
@@ -37,30 +38,29 @@ const ListaAulas = () => {
     }
   }
 
-  async function getAulas() {
+  async function getCategorias() {
     try {
-      const res = await api.get('/api/aulas')
-      setAulas(res.data)
+      const res = await api.get('/api/categoria')
+      setCategorias(res.data)
     } catch (err) {
       alert(err.message)
     }
   }
   useEffect(() => {
-    getAulas()
+    getCategorias()
   }, [])
 
-  const listaAulas = listaTabela.map(aula => (
-    <tr key={aula.id} className="border-b dark:border-neutral-500">
-      <td className="px-6 py-4 font-medium">{aula.id}</td>
-      <td className="px-6 py-4">{aula.titulo_aula}</td>
-      <td className="px-6 py-4">{aula.descricao_aula}</td>
-      <td className="px-6 py-4">{aula.url_aula}</td>
+  const listaAulas = listaTabela.map(categoria => (
+    <tr key={categoria.id} className="border-b dark:border-neutral-500">
+      <td className="px-6 py-4 font-medium">{categoria.id}</td>
+      <td className="px-6 py-4">{categoria.nome_categoria}</td>
+      <td className="px-6 py-4">{categoria.imagem_categoria}</td>
       <td className="px-6 py-4">
-        <div className="flex justify-between">
-          <a className="cursor-pointer" href={`cadastroaula/${aula.id}`}>
-            <PiPencilSimpleLineDuotone />
-          </a>
-          <a className="cursor-pointer" onClick={() => desejaApagar(aula.id)}>
+        <div className="flex justify-center">
+          <a
+            className="cursor-pointer"
+            onClick={() => desejaApagar(categoria.id)}
+          >
             <PiTrashSimpleDuotone />
           </a>
         </div>
@@ -75,8 +75,8 @@ const ListaAulas = () => {
         <input
           className="search-bar_field"
           type="search"
-          value={searchAulas}
-          onChange={e => setSearchAulas(e.target.value)}
+          value={searchCategorias}
+          onChange={e => setSearchCategorias(e.target.value)}
         />
       </div>
       <table className="tabela border-2">
@@ -85,9 +85,8 @@ const ListaAulas = () => {
             <th scope="col" className="px-6 py-4">
               ID
             </th>
-            <th scope="col">Título</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">YouTube ID</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Imagem</th>
             <th scope="col" className="px-6">
               Opções
             </th>
@@ -99,4 +98,4 @@ const ListaAulas = () => {
   )
 }
 
-export default ListaAulas
+export default ListaCategoriasCadastradas

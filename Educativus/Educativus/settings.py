@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'Educativus.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'educativus_homo',
+        'USER': 'root',
+        'PASSWORD': '159357486',
+        'HOST': 'localhost',  # or the hostname where your MySQL server is running
+        'PORT': '3306',      # or the port on which your MySQL server is listening
     }
 }
 
@@ -117,9 +121,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_URL = '/categoria/'
+MEDIA_URL = '/files/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'categoria')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -129,7 +133,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+
 ]
 
 CORS_ALLOW_METHODS = [
@@ -141,13 +146,11 @@ CORS_ALLOW_METHODS = [
     'PUT'
 ]
 
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        #'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
         'knox.auth.TokenAuthentication'
     ]
 }
-
-
-

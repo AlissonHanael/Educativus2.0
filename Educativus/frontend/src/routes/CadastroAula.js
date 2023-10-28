@@ -3,7 +3,6 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import MenuLateral from '../components/MenuLateral'
 import FormCadastroAula from '../components/FormCadastroAula'
-import ListaAulas from '../components/ListaAulas'
 import { useCookies } from 'react-cookie'
 import { redirect } from 'react-router-dom'
 
@@ -20,9 +19,9 @@ const CadastroAula = () => {
       <Navbar />
       <div className="flex flex-[1_2]">
         <MenuLateral />
-        <div>
+        <div className="h-[75vh]">
+          <p className="page-identifier">Nova Aula</p>
           <FormCadastroAula />
-          <ListaAulas />
         </div>
       </div>
       <Footer />

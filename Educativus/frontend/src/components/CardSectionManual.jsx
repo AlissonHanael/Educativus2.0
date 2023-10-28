@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import Card from '../components/Card'
+import Card from './Card'
 import api from '../services/api'
+import './SearchBar.css'
 import './loader.css'
 
-export const CardSection = () => {
+export const CardSectionManual = () => {
   const [aulas, setAulas] = useState([])
   const [loadingAulas, setLoadingAulas] = useState(false)
   const [searchAulas, setSearchAulas] = useState('')
   const searchLowCase = searchAulas.toLowerCase()
-  const aula = aulas.filter(aulas =>
-    aulas.titulo_aula.toLowerCase().includes(searchLowCase)
+  const manuais = aulas.filter(aulas =>
+    aulas.titulo_pdf.toLowerCase().includes(searchLowCase)
   )
 
   async function getAulas() {
     setLoadingAulas(true)
     try {
-      const res = await api.get('/api/aulas')
+      const res = await api.get('/api/manuais')
       setAulas(res.data)
     } catch (err) {
       alert(err.message)
@@ -40,13 +41,13 @@ export const CardSection = () => {
       <div>
         {!loadingAulas && aulas ? (
           <div className="flex flex-wrap gap-x-6 bg-[#fffafa] p-10">
-            {aula.map(aulas => (
+            {manuais.map(aulas => (
               <Card
                 key={aulas.id}
-                title={aulas.titulo_aula}
-                url={aulas.id}
-                category={aulas.categoria_aula}
-                buttonText={'Assistir'}
+                title={aulas.titulo_pdf}
+                url={`http://localhost:8000${aulas.pdf_file}`}
+                category={aulas.categoria_pdf}
+                buttonText={'Download'}
               />
             ))}
           </div>
